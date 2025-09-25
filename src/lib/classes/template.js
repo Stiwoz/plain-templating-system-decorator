@@ -13,7 +13,7 @@ export class Template {
       ]);
       this.cursor = this.match.index + this.match[0].length;
     }
-    this.add(html.substr(this.cursor, html.length - this.cursor));
+    this.add(html.substring(this.cursor, html.length));
     this.code += 'return r.join(""); }';
   }
 

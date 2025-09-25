@@ -32,8 +32,8 @@ export class HelloWorld extends Component {
     });
   }
 
-  render(...args) {
-    super.render(...args);
+  render() {
+    super.render(...arguments);
     this.initValues();
   }
 
