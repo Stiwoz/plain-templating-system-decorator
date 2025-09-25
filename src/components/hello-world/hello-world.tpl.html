@@ -1,0 +1,15 @@
+<article>
+  <% for ( let i of list ) { %>
+  <div class="hello"><% text %></div>
+  <% } %>
+  <input type="testo" name="testo 1" placeholder="Add testo 1" />
+
+  <select name="select" id="select">
+    <option value="">Select one...</option>
+    <% for(let option of options) { %>
+    <option value="<% option.value %>"><% option.label %></option>
+    <% } %>
+  </select>
+
+  <button id="button" aria-busy="<% loaders.button %>">Click</button>
+</article>

@@ -1,0 +1,12 @@
+.hello {
+  font-size: bold;
+  color: red;
+
+  &:first-of-type {
+    color: blue;
+  }
+
+  &:last-of-type {
+    color: green;
+  }
+}

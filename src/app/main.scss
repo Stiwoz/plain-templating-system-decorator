@@ -1,0 +1,15 @@
+// global stiles/theming
+
+.red {
+  color: rgb(190, 21, 34);
+}
+
+[aria-busy="true"] {
+  cursor: not-allowed;
+}
+
+body {
+  & > .container {
+    padding-top: 1rem;
+  }
+}
