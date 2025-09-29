@@ -3,13 +3,14 @@ import styles from "./hello-world.scss";
 import { Component, View } from "@/lib";
 import { STRINGS } from "@/data";
 import { ApiService, LoggerService } from "@/services";
+import { Handler } from "@/lib";
 
 @View({ html: template, style: styles })
 export class HelloWorld extends Component {
   loaders = {
     button: false,
   };
-  handlers = [
+  handlers: Handler[] = [
     {
       selector: "#button",
       event: "click",
@@ -18,11 +19,11 @@ export class HelloWorld extends Component {
   ];
   text = STRINGS.HELLO_WORLD.TEXT;
   list = [1, 2, 3];
-  options = [];
+  options: { value: string; label: string }[] = [];
   api = new ApiService();
   logger = new LoggerService("HelloWorld");
 
-  constructor(element) {
+  constructor(element: HTMLElement) {
     super(element);
 
     this.api.fetchChoices().then((result) => {
@@ -41,7 +42,7 @@ export class HelloWorld extends Component {
     // Do something with inputs and stuff
   }
 
-  handleClick(event) {
+  handleClick(event: Event) {
     event.preventDefault();
     this.loaders.button = true;
     this.render();

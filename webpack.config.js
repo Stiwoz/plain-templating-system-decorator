@@ -12,7 +12,7 @@ module.exports = (env) => {
     devtool: env.production ? false : "eval-cheap-source-map",
     target: ["web", "es2025"],
     entry: {
-      app: ["./src/app/polyfill.js", "./src/app/main.js"],
+      app: ["./src/app/polyfill.ts", "./src/app/main.ts"],
     },
 
     plugins: [],
@@ -24,6 +24,16 @@ module.exports = (env) => {
           port: 8001,
         }
       : void 0,
+
+    resolve: {
+      extensions: [".ts"],
+      alias: {
+        "@/lib": path.resolve(__dirname, "src/lib/"),
+        "@/data": path.resolve(__dirname, "src/data/"),
+        "@/components": path.resolve(__dirname, "src/components/"),
+        "@/services": path.resolve(__dirname, "src/services/"),
+      },
+    },
 
     module: {
       rules: [
@@ -48,34 +58,18 @@ module.exports = (env) => {
           exclude: /node_modules/,
           use: {
             loader: "html-loader",
-            options: {
-              // interpolate: true,
-              minimize: true,
-            },
+            options: { esModule: true, minimize: true },
           },
         },
         {
-          test: /\.js$/,
+          test: /\.ts$/,
           loader: "babel-loader",
           options: {
             plugins: ["syntax-dynamic-import"],
             presets: [
-              [
-                "@babel/preset-env",
-                {
-                  modules: false,
-                },
-              ],
+              ["@babel/preset-env", { modules: false }],
+              ["@babel/preset-typescript", { allowDeclareFields: true }],
             ],
-          },
-          resolve: {
-            extensions: [".js", ".jsx"],
-            alias: {
-              "@/lib": path.resolve(__dirname, "src/lib/"),
-              "@/data": path.resolve(__dirname, "src/data/"),
-              "@/components": path.resolve(__dirname, "src/components/"),
-              "@/services": path.resolve(__dirname, "src/services/"),
-            },
           },
         },
       ],

@@ -1,14 +1,10 @@
-import { StoreService, LoggerService } from ".";
-import { CONSTANTS } from "../data/constants";
+import { LoggerService } from "./logger.service";
 
 export class ApiService {
-  #delay = 1500;
+  private delay = 1500;
+  private logger = new LoggerService("MOCK API");
 
-  constructor() {
-    this.logger = new LoggerService("MOCK API");
-  }
-
-  async fetchChoices() {
+  async fetchChoices(): Promise<{ value: string; label: string }[]> {
     this.logger.log("Fetching Choices...");
     return new Promise((resolve, _) => {
       setTimeout(() => {
@@ -34,7 +30,7 @@ export class ApiService {
             label: "Choice 5",
           },
         ]);
-      }, this.#delay);
+      }, this.delay);
     });
   }
 }

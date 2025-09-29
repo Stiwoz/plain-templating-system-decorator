@@ -1,11 +1,11 @@
 export class Template {
-  constructor(html = "") {
-    this.re = /<%([^%>]+)?%>/g;
-    this.reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g;
-    this.code = "with (this) { let r=[];\n";
-    this.cursor = 0;
-    this.match = undefined;
+  private re = /<%([^%>]+)?%>/g;
+  private reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g;
+  private code = "with (this) { let r=[];\n";
+  private cursor = 0;
+  private match: RegExpExecArray | null;
 
+  constructor(html = "") {
     while ((this.match = this.re.exec(html))) {
       this.add(html.slice(this.cursor, this.match.index)).apply(this, [
         this.match[1],
@@ -17,11 +17,11 @@ export class Template {
     this.code += 'return r.join(""); }';
   }
 
-  compile(scope) {
+  compile(scope: this): Function {
     return new Function(this.code.replace(/[\r\t\n]/g, "")).apply(scope);
   }
 
-  add(line = "", js) {
+  add(line = "", js = false): Template["add"] {
     if (js) {
       if (line.match(this.reExp)) {
         this.code += line + "\n";

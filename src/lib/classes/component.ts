@@ -1,13 +1,20 @@
+import { Handler } from "../types/handler";
+
 const prev = Symbol("prev");
 const styletag = Symbol("styletag");
 export class Component {
+  public element;
+  public handlers?: Handler[];
+
+  private __html = "";
+  private __class_name = "";
+  private [prev]?: string;
+  private [styletag]?: HTMLStyleElement;
   /**
    * @param {HTMLElement} element
    */
-  constructor(element) {
+  constructor(element: HTMLElement) {
     this.element = element;
-    this[prev] = undefined;
-    this[styletag] = undefined;
   }
 
   /**
@@ -15,16 +22,16 @@ export class Component {
    * @param {string?} style
    * @returns void
    */
-  render(style) {
+  render(style?: string): void {
     const newHtml = this.__html;
     if (style && style.length) {
-      if (!this.styletag) {
-        this.styletag = document.createElement("style");
-        this.styletag.setAttribute("component", this.__class_name);
+      if (!this[styletag]) {
+        this[styletag] = document.createElement("style");
+        this[styletag].setAttribute("component", this.__class_name);
       }
-      this.styletag.innerHTML = "";
-      this.styletag.appendChild(document.createTextNode(style));
-      document.head.appendChild(this.styletag);
+      this[styletag].innerHTML = "";
+      this[styletag].appendChild(document.createTextNode(style));
+      document.head.appendChild(this[styletag]);
     }
     if (!this.element || newHtml == this[prev]) return;
     this.#unbindHandlers();
@@ -33,7 +40,7 @@ export class Component {
     this.#bindHandlers();
   }
 
-  #unbindHandlers() {
+  #unbindHandlers(): void {
     if (!this.handlers) return;
     (this.handlers || []).forEach((handler) => {
       const elements = document.querySelectorAll(handler.selector);
@@ -43,7 +50,7 @@ export class Component {
     });
   }
 
-  #bindHandlers() {
+  #bindHandlers(): void {
     if (!this.handlers) return;
     (this.handlers || []).forEach((handler) => {
       const elements = document.querySelectorAll(handler.selector);

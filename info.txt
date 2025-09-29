@@ -1,0 +1,9 @@
+https://erm.zucchetti.it/HR-WorkFlow/servlet/hfpf_binsert_dm
+
+X F R -> all day
+x= f= r= -> morning
+=x =f =r -> afternoon
+* -> specific hours
+
+[FERIE] -> 202
+Stefano UserId -> 67
